@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Assessment Report - New Design Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #10151f;
+            color: #f2f2f2;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Grid Background */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 211, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 211, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridPulse 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+        }
+
+        /* Glass Effect Container */
+        .glass-container {
+            background: rgba(26, 30, 43, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid #00d3ff;
+            border-radius: 16px;
+            box-shadow: 
+                0 0 20px rgba(0, 211, 255, 0.15),
+                inset 0 0 15px rgba(0, 211, 255, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .glass-container:hover {
+            box-shadow: 
+                0 0 30px rgba(0, 211, 255, 0.25),
+                inset 0 0 20px rgba(0, 211, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .report-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .report-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #00d3ff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 211, 255, 0.3);
+        }
+
+        .report-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        .participant-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(26, 30, 43, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 211, 255, 0.3);
+        }
+
+        /* Score Section */
+        .score-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .overall-score {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00d3ff 0deg 252deg, rgba(0, 211, 255, 0.2) 252deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 211, 255, 0.4);
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: #10151f;
+            border-radius: 50%;
+            border: 2px solid #1a1e2b;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #00d3ff;
+            z-index: 1;
+        }
+
+        .score-label {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            font-weight: 500;
+        }
+
+        /* Dimensions Grid */
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .dimension-card {
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dimension-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .dimension-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f2f2f2;
+        }
+
+        .dimension-score {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00d3ff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(26, 30, 43, 0.8);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 211, 255, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d3ff, #00a8cc);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(0, 211, 255, 0.5);
+        }
+
+        .dimension-description {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Insights Section */
+        .insights-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00d3ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .insight-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(26, 30, 43, 0.6);
+            border-radius: 12px;
+            border-left: 4px solid #00d3ff;
+            position: relative;
+        }
+
+        .insight-item::before {
+            content: '💡';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .insight-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f2f2f2;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text {
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+
+        /* Recommendations Section */
+        .recommendations-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .recommendation-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(26, 30, 43, 0.6);
+            border-radius: 12px;
+            border-left: 4px solid #fecb38;
+            position: relative;
+        }
+
+        .recommendation-item::before {
+            content: '🎯';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .recommendation-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fecb38;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-text {
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+
+        /* Action Button */
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00d3ff, #00a8cc);
+            color: #10151f;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 211, 255, 0.3);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 211, 255, 0.4);
+            background: linear-gradient(135deg, #00e6ff, #00d3ff);
+        }
+
+        /* Footer */
+        .report-footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 211, 255, 0.3);
+            margin-top: 3rem;
+        }
+
+        .footer-text {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .report-title {
+                font-size: 2rem;
+            }
+            
+            .dimensions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .score-circle::before {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .score-value {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation for progress bars */
+        @keyframes fillProgress {
+            from { width: 0%; }
+            to { width: var(--progress-width); }
+        }
+
+        .progress-fill {
+            animation: fillProgress 2s ease-out 0.5s both;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Grid Background -->
+    <div class="grid-background"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="glass-container report-header">
+            <h1 class="report-title">Identity Assessment Report</h1>
+            <p class="report-subtitle">Comprehensive Analysis & Insights</p>
+            <div class="participant-info">
+                <strong>Participant:</strong> Sarah Johnson | 
+                <strong>Date:</strong> January 20, 2025 | 
+                <strong>Assessment ID:</strong> IA-2025-001
+            </div>
+        </div>
+
+        <!-- Overall Score Section -->
+        <div class="glass-container score-section">
+            <div class="overall-score">
+                <div class="score-circle">
+                    <div class="score-value">85</div>
+                </div>
+                <div class="score-label">Overall Identity Coherence Score</div>
+            </div>
+        </div>
+
+        <!-- Dimensions Analysis -->
+        <div class="glass-container">
+            <h2 class="section-title">Identity Dimensions Analysis</h2>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-header">
+                        <div class="dimension-title">Self-Awareness</div>
+                        <div class="dimension-score">92</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--progress-width: 92%; width: 92%;"></div>
+                    </div>
+                    <div class="dimension-description">
+                        Demonstrates exceptional understanding of personal values, strengths, and areas for growth. Shows high emotional intelligence and self-reflection capabilities.
+                    </div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-header">
+                        <div class="dimension-title">Authenticity</div>
+                        <div class="dimension-score">78</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--progress-width: 78%; width: 78%;"></div>
+                    </div>
+                    <div class="dimension-description">
+                        Generally aligns actions with core values, though some areas show potential for increased authentic expression in challenging situations.
+                    </div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-header">
+                        <div class="dimension-title">Purpose Clarity</div>
+                        <div class="dimension-score">85</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--progress-width: 85%; width: 85%;"></div>
+                    </div>
+                    <div class="dimension-description">
+                        Clear sense of direction and meaning in life. Well-defined goals that align with personal values and long-term vision.
+                    </div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-header">
+                        <div class="dimension-title">Resilience</div>
+                        <div class="dimension-score">88</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--progress-width: 88%; width: 88%;"></div>
+                    </div>
+                    <div class="dimension-description">
+                        Strong ability to bounce back from setbacks and maintain identity coherence during challenging times. Excellent coping strategies.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Insights Section -->
+        <div class="glass-container insights-section">
+            <h2 class="section-title">Key Insights</h2>
+            
+            <div class="insight-item">
+                <div class="insight-title">Strong Foundation</div>
+                <div class="insight-text">
+                    Your assessment reveals a solid foundation of self-awareness and purpose clarity. You demonstrate a clear understanding of who you are and what drives you, which serves as an excellent base for continued growth.
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-title">Authenticity Opportunities</div>
+                <div class="insight-text">
+                    While you generally live authentically, there are opportunities to express your true self more fully in professional settings and challenging interpersonal situations.
+                </div>
+            </div>
+
+            <div class="insight-item">
+                <div class="insight-title">Resilience Strength</div>
+                <div class="insight-text">
+                    Your high resilience score indicates excellent emotional regulation and adaptive coping strategies. This is a significant strength that supports your overall identity coherence.
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="glass-container recommendations-section">
+            <h2 class="section-title">Personalized Recommendations</h2>
+            
+            <div class="recommendation-item">
+                <div class="recommendation-title">Authenticity Practice</div>
+                <div class="recommendation-text">
+                    Consider implementing daily authenticity check-ins. Ask yourself: "Am I being true to my values in this moment?" This simple practice can help bridge the gap between your authentic self and external expression.
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="recommendation-title">Values Clarification</div>
+                <div class="recommendation-text">
+                    Engage in regular values clarification exercises. As you grow and evolve, ensure your understanding of your core values remains current and guides your decision-making process.
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="recommendation-title">Mindful Expression</div>
+                <div class="recommendation-text">
+                    Practice mindful self-expression in low-stakes situations first, then gradually apply these skills to more challenging contexts. This will help build confidence in authentic communication.
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="#" class="action-button">Download Full Report</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="report-footer">
+            <div class="footer-text">
+                This report was generated using advanced AI analysis and psychological assessment frameworks.<br>
+                For questions or support, contact your assessment administrator.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars on scroll
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            const animateProgress = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fillProgress 2s ease-out forwards';
+                    }
+                });
+            };
+            
+            const progressObserver = new IntersectionObserver(animateProgress, {
+                threshold: 0.5
+            });
+            
+            progressBars.forEach(bar => {
+                progressObserver.observe(bar);
+            });
+        });
+    </script>
+</body>
+</html>

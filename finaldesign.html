@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #10151f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .card {
+            max-width: 600px;
+            width: 100%;
+            background-color: #1a1e2b;
+            border-radius: 0.75rem;
+            box-shadow: inset 0 0 15px rgba(0, 211, 255, 0.2);
+            padding: 2rem;
+            text-align: center;
+        }
+        .text-light-gray {
+            color: #a0a0a0;
+        }
+        .bg-button-primary {
+            background-color: #1a1e2b;
+            box-shadow: inset 0 0 15px rgba(0, 211, 255, 0.3);
+            border: 1px solid #fecb38;
+        }
+        .bg-button-secondary {
+            background-color: #1a1e2b;
+            box-shadow: inset 0 0 15px rgba(0, 211, 255, 0.2);
+            border: 1px solid #00d3ff;
+        }
+        .text-white-main {
+            color: #f2f2f2;
+        }
+        .slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1a1e2b;
+            border: 2px solid #00d3ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: inset 0 0 10px rgba(0, 211, 255, 0.5);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #1a1e2b;
+            border: 2px solid #00d3ff;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: inset 0 0 10px rgba(0, 211, 255, 0.5);
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #1a1e2b;
+            border: 2px solid #00d3ff;
+            cursor: pointer;
+            box-shadow: inset 0 0 10px rgba(0, 211, 255, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #1a1e2b;
+            box-shadow: inset 0 0 15px rgba(0, 211, 255, 0.2);
+            border-radius: 1.5px;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #1a1e2b;
+            box-shadow: inset 0 0 15px rgba(0, 211, 255, 0.2);
+            border-radius: 1.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Progress Bar / Question Counter -->
+        <p id="question-counter" class="text-xs text-light-gray tracking-widest uppercase mb-6">QUESTION 1 OF 5</p>
+
+        <!-- Question 1: Multiple Choice (Original) -->
+        <div id="question-1" class="question-container">
+            <h2 class="text-2xl md:text-3xl font-semibold leading-relaxed text-white-main mb-8">
+                The gap between where you are and where you should be feels like:
+            </h2>
+            <div class="w-full text-left space-y-3 mb-8">
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    "I know I'm capable of more but I can't seem to break through to the next level"
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    "I have the skills but I can't pick a lane and stick with it long enough to see real results"
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    "Every time I build momentum, something happens to slow me down or complicate things"
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    "I have the knowledge and work ethic, but everyone else seems to be moving faster"
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 2: Text Input with examples (from new images) -->
+        <div id="question-2" class="question-container hidden">
+            <h2 class="text-2xl md:text-3xl font-semibold leading-relaxed text-white-main mb-8">
+                When you think about where your business should be versus where it actually is, what specific gap frustrates you most?
+            </h2>
+            <div class="w-full text-left mb-8">
+                <textarea class="w-full h-32 p-4 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[#fecb38] bg-[#1a1e2b] text-light-gray shadow-[0_0_15px_rgba(0,211,255,0.2)]" placeholder='Examples: "I should be booking $10K+ clients consistently by now", "I should have a clear business direction instead of jumping between ideas", "I should have systems that work without me having to constantly fix them", "I should be making 6-figures without working 70-hour weeks"...'></textarea>
+            </div>
+        </div>
+        
+        <!-- Question 3: Slider -->
+        <div id="question-3" class="question-container hidden">
+            <h2 class="text-2xl md:text-3xl font-semibold leading-relaxed text-white-main mb-8">
+                How often do you feel like you should be further along than you are?
+            </h2>
+            <div class="w-full text-center">
+                <div class="relative w-full h-10 mb-8">
+                    <input type="range" min="1" max="10" value="4" class="w-full h-1 bg-transparent slider-track" id="slider-range">
+                    <div id="slider-value" class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-white-main bg-[#1a1e2b] px-4 py-2 rounded-full shadow-[0_0_15px_rgba(0,211,255,0.2)]">4</div>
+                    <div class="flex justify-between w-full mt-2 text-light-gray text-sm">
+                        <span>1 (Rarely)</span>
+                        <span>10 (Daily)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question 4: Large Text -->
+        <div id="question-4" class="question-container hidden">
+            <h2 class="text-2xl md:text-3xl font-semibold leading-relaxed text-white-main mb-8">
+                When you're triggered, what happens in your body FIRST? (Select all that feel familiar)
+            </h2>
+        </div>
+
+        <!-- Question 5: Multiple Choice -->
+        <div id="question-5" class="question-container hidden">
+            <h2 class="text-2xl md:text-3xl font-semibold leading-relaxed text-white-main mb-8">
+                At what age did you first learn that being yourself was dangerous?
+            </h2>
+            <div class="w-full text-left space-y-3 mb-8">
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    Before age 5: Pre-verbal, body memories only
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    Ages 5-7: Early school, first social rejection
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    Ages 8-10: Concrete operational, rules matter
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    Ages 11-13: Early adolescence, identity forming
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    Ages 14-17: High school, social survival
+                </button>
+                <!-- Example of a selected button -->
+                <button class="w-full py-4 px-6 rounded-lg text-left text-white-main focus:outline-none focus:ring-2 focus:ring-[#fecb38] bg-button-primary">
+                    Ages 18-21: Early adulthood, first real failures
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    After 21: Adult trauma, life disruption
+                </button>
+                <button class="w-full py-4 px-6 rounded-lg text-left bg-button-secondary text-white-main transition-all duration-200 hover:bg-[#111721] focus:outline-none focus:ring-2 focus:ring-[#fecb38]">
+                    I can't remember, but my body does
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center mt-8">
+            <button id="back-btn" class="px-6 py-2 rounded-lg text-white-main text-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#fecb38] bg-[#1a1e2b] border border-[#a0a0a0] opacity-50" disabled>
+                Back
+            </button>
+            <span id="questions-remaining" class="text-light-gray text-sm">4 questions remaining</span>
+            <button id="continue-btn" class="px-6 py-2 rounded-lg text-white-main text-lg font-medium transition-colors duration-200 hover:bg-[#00a2c0] focus:outline-none focus:ring-2 focus:ring-[#fecb38] bg-button-primary">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questionContainers = document.querySelectorAll('.question-container');
+        const questionCounter = document.getElementById('question-counter');
+        const questionsRemaining = document.getElementById('questions-remaining');
+        const continueBtn = document.getElementById('continue-btn');
+        const backBtn = document.getElementById('back-btn');
+        const slider = document.getElementById('slider-range');
+        const sliderValue = document.getElementById('slider-value');
+        const areText = document.getElementById('are-text');
+
+        let currentQuestionIndex = 0;
+        const totalQuestions = questionContainers.length;
+
+        function showQuestion(index) {
+            questionContainers.forEach(container => container.classList.add('hidden'));
+            if (questionContainers[index]) {
+                questionContainers[index].classList.remove('hidden');
+            }
+            questionCounter.textContent = `QUESTION ${index + 1} OF ${totalQuestions}`;
+            questionsRemaining.textContent = `${totalQuestions - (index + 1)} questions remaining`;
+            backBtn.disabled = index === 0;
+            if (index === totalQuestions - 1) {
+                continueBtn.textContent = 'Finish';
+            } else {
+                continueBtn.textContent = 'Continue';
+            }
+        }
+
+        continueBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < totalQuestions) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                alert('Quiz finished!');
+                currentQuestionIndex = 0;
+                showQuestion(currentQuestionIndex);
+            }
+        });
+
+        backBtn.addEventListener('click', () => {
+            currentQuestionIndex--;
+            if (currentQuestionIndex >= 0) {
+                showQuestion(currentQuestionIndex);
+            }
+        });
+
+        if (slider) {
+            slider.addEventListener('input', (e) => {
+                sliderValue.textContent = e.target.value;
+                const percent = (e.target.value - e.target.min) / (e.target.max - e.target.min) * 100;
+                sliderValue.style.left = `calc(${percent}% + (${8 - percent/10}px))`;
+            });
+        }
+        
+        // Initial display
+        showQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>

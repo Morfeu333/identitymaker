@@ -22,6 +22,7 @@ import TestReportDisplay from "./pages/TestReportDisplay";
 import TestReport from "./pages/TestReport";
 import VideoTutorialProcessor from "./pages/VideoTutorialProcessor";
 import FileUploadTest from "./components/FileUploadTest";
+import ThemeDemo from "./pages/ThemeDemo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/test-report" element={<TestReportDisplay />} />
             <Route path="/video-tutorial-processor" element={<VideoTutorialProcessor />} />
             <Route path="/file-upload-test" element={<FileUploadTest />} />
+            <Route path="/theme-demo" element={<ThemeDemo />} />
             {/* Redirect old routes */}
             <Route path="/meus-formularios" element={<Navigate to="/dashboard" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

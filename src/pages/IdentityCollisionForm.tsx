@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { NumberSlider } from '@/components/ui/number-slider';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface FormField {
   id: string;
@@ -259,19 +260,19 @@ const IdentityCollisionForm: React.FC = () => {
     switch (field.type) {
       case 'radio':
         return (
-          <div key={field.id} className="space-y-3">
-            <Label className="text-sm font-medium text-gray-700">{field.label}</Label>
+          <div key={field.id} className="space-y-4">
+            <Label className="text-xl font-bold text-foreground leading-relaxed">{field.label}</Label>
             <RadioGroup
               value={value}
               onValueChange={(newValue) => handleFieldChange(field.id, newValue)}
-              className="space-y-2"
+              className="space-y-3"
             >
               {field.options?.map((option, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <RadioGroupItem value={option} id={`${field.id}-${index}`} className="mt-1" />
-                  <Label 
-                    htmlFor={`${field.id}-${index}`} 
-                    className="text-sm leading-relaxed cursor-pointer flex-1"
+                <div key={index} className="flex items-start space-x-4 p-3 rounded-lg border border-border hover:border-primary/50 transition-colors">
+                  <RadioGroupItem value={option} id={`${field.id}-${index}`} className="mt-1 border-primary text-primary" />
+                  <Label
+                    htmlFor={`${field.id}-${index}`}
+                    className="text-base leading-relaxed cursor-pointer flex-1 text-foreground"
                   >
                     {option}
                   </Label>
@@ -283,13 +284,13 @@ const IdentityCollisionForm: React.FC = () => {
 
       case 'textarea':
         return (
-          <div key={field.id} className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">{field.label}</Label>
+          <div key={field.id} className="space-y-4">
+            <Label className="text-xl font-bold text-foreground leading-relaxed">{field.label}</Label>
             <Textarea
               value={value}
               onChange={(e) => handleFieldChange(field.id, e.target.value)}
               placeholder={field.placeholder}
-              className="min-h-[100px]"
+              className="min-h-[120px] border-primary/30 focus:border-primary focus:ring-primary/20 text-base"
               required={field.required}
             />
           </div>
@@ -297,26 +298,29 @@ const IdentityCollisionForm: React.FC = () => {
 
       case 'number':
         return (
-          <NumberSlider
-            key={field.id}
-            value={value}
-            onChange={(newValue) => handleFieldChange(field.id, newValue)}
-            label={field.label}
-            required={field.required}
-            className="mb-6"
-          />
+          <div key={field.id} className="space-y-4">
+            <Label className="text-xl font-bold text-foreground leading-relaxed">{field.label}</Label>
+            <NumberSlider
+              value={value}
+              onChange={(newValue) => handleFieldChange(field.id, newValue)}
+              label=""
+              required={field.required}
+              className="mb-6"
+            />
+          </div>
         );
 
       default:
         return (
-          <div key={field.id} className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">{field.label}</Label>
+          <div key={field.id} className="space-y-4">
+            <Label className="text-xl font-bold text-foreground leading-relaxed">{field.label}</Label>
             <Input
               type="text"
               value={value}
               onChange={(e) => handleFieldChange(field.id, e.target.value)}
               placeholder={field.placeholder}
               required={field.required}
+              className="h-12 border-primary/30 focus:border-primary focus:ring-primary/20 text-base"
             />
           </div>
         );
@@ -325,28 +329,39 @@ const IdentityCollisionForm: React.FC = () => {
 
   if (!formData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Loading form...</p>
+      <div className="min-h-screen bg-background flex items-center justify-center relative">
+        {/* Futuristic Grid Background */}
+        <div className="grid-background fixed inset-0 pointer-events-none" />
+
+        <div className="text-center relative z-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4 shadow-glow-md"></div>
+          <p className="text-foreground text-lg">Loading assessment...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="w-full max-w-2xl lg:max-w-4xl">
+    <div className="min-h-screen bg-background flex items-center justify-center p-2 sm:p-4 relative">
+      {/* Futuristic Grid Background */}
+      <div className="grid-background fixed inset-0 pointer-events-none" />
+
+      {/* Theme Toggle - Top Right */}
+      <div className="absolute top-6 right-6 z-20">
+        <ThemeToggle />
+      </div>
+
+      <div className="w-full max-w-2xl lg:max-w-4xl relative z-10">
         {step === 'email' && (
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">{formData.title}</h1>
-              <p className="text-gray-600">{formData.description}</p>
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-foreground mb-4">{formData.title}</h1>
+              <p className="text-muted-foreground text-lg leading-relaxed">{formData.description}</p>
             </div>
-            
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
+
+            <form onSubmit={handleEmailSubmit} className="space-y-6">
               <div>
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="email" className="text-base font-medium text-foreground mb-2 block">
                   Email Address
                 </Label>
                 <Input
@@ -354,34 +369,34 @@ const IdentityCollisionForm: React.FC = () => {
                   type="email"
                   value={userEmail}
                   onChange={(e) => setUserEmail(e.target.value)}
-                  placeholder="Enter your email address"
+                  placeholder="your@email.com"
                   required
-                  className="mt-1"
+                  className="h-12 text-base border-primary/30 focus:border-primary focus:ring-primary/20"
                 />
               </div>
-              
-              <Button type="submit" className="w-full">
-                Continue to Assessment
+
+              <Button type="submit" variant="futuristic" className="w-full h-12 text-base font-semibold">
+                Continue to Assessment →
               </Button>
             </form>
           </div>
         )}
 
         {step === 'form' && currentField && (
-          <div className="bg-white rounded-lg shadow-lg p-8" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 lg:p-10" style={{ fontFamily: 'Inter, sans-serif' }}>
             {/* Progress indicator */}
             <div className="mb-8">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-[#8D6B4E] font-medium">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-sm text-primary font-semibold">
                   Question {currentQuestionIndex + 1} of {formData?.fields.length}
                 </span>
-                <span className="text-sm text-[#8D6B4E] font-medium">
+                <span className="text-sm text-primary font-semibold">
                   {Math.round(((currentQuestionIndex + 1) / (formData?.fields.length || 1)) * 100)}% Complete
                 </span>
               </div>
-              <div className="w-full bg-[#F8F6F4] rounded-full h-2">
+              <div className="w-full bg-muted rounded-full h-3 shadow-inner">
                 <div
-                  className="bg-[#32230D] h-2 rounded-full transition-all duration-300 ease-out"
+                  className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500 ease-out shadow-glow-sm"
                   style={{ width: `${((currentQuestionIndex + 1) / (formData?.fields.length || 1)) * 100}%` }}
                 ></div>
               </div>
@@ -394,13 +409,13 @@ const IdentityCollisionForm: React.FC = () => {
               </div>
 
               {/* Navigation buttons */}
-              <div className="flex justify-between items-center mt-8 pt-6 border-t border-[#F8F6F4]">
+              <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
                 <Button
                   type="button"
                   onClick={handlePreviousQuestion}
                   disabled={isFirstQuestion}
                   variant="outline"
-                  className="px-6 py-3 border-[#8D6B4E] text-[#8D6B4E] hover:bg-[#F8F6F4] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 border-primary/50 text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ← Previous
                 </Button>
@@ -409,7 +424,8 @@ const IdentityCollisionForm: React.FC = () => {
                   <Button
                     onClick={handleFormSubmit}
                     disabled={!canProceed || submitting}
-                    className="px-8 py-3 bg-[#32230D] hover:bg-[#8D6B4E] text-white font-bold rounded-full transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    variant="futuristic"
+                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? 'Submitting...' : 'Submit Assessment'}
                   </Button>
@@ -418,7 +434,8 @@ const IdentityCollisionForm: React.FC = () => {
                     type="button"
                     onClick={handleNextQuestion}
                     disabled={!canProceed}
-                    className="px-8 py-3 bg-[#32230D] hover:bg-[#8D6B4E] text-white font-bold rounded-full transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    variant="futuristic"
+                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Next →
                   </Button>
@@ -429,22 +446,30 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'loading' && (
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Generating Your Report</h2>
-            <p className="text-gray-600">Our AI is analyzing your responses and creating a personalized assessment...</p>
+          <div className="glass-effect card-glow border-primary/30 p-8 text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-6 shadow-glow-md"></div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Generating Your Report</h2>
+            <p className="text-muted-foreground text-lg">Our AI is analyzing your responses and creating a personalized assessment...</p>
+            <div className="mt-6 flex justify-center">
+              <div className="flex space-x-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+              </div>
+            </div>
           </div>
         )}
 
         {step === 'success' && (
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="text-green-500 text-5xl mb-4">✓</div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Assessment Submitted!</h2>
-            <p className="text-gray-600 mb-4">Your personalized report is being generated. You'll receive it via email shortly.</p>
-            
-            <Button 
+          <div className="glass-effect card-glow border-primary/30 p-8 text-center">
+            <div className="text-primary text-6xl mb-6 animate-pulse">✓</div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Assessment Submitted!</h2>
+            <p className="text-muted-foreground text-lg mb-6">Your personalized report is being generated. You'll receive it via email shortly.</p>
+
+            <Button
               onClick={() => navigate('/')}
               variant="outline"
+              className="border-primary/50 text-primary hover:bg-primary/10"
             >
               Return to Home
             </Button>
@@ -452,10 +477,9 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'report' && reportData && (
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">{/* Removed header section */}
-
-            <div className="p-3 sm:p-6 lg:p-8 max-h-[85vh] overflow-y-auto bg-gradient-to-br from-[#F8F6F4] via-white to-[#F8F6F4]">
-              <div className="max-w-5xl mx-auto bg-white rounded-2xl sm:rounded-3xl lg:rounded-[2rem] shadow-2xl border border-[#8D6B4E]/10 p-6 sm:p-8 lg:p-16" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+          <div className="glass-effect card-glow border-primary/30 overflow-hidden">
+            <div className="p-3 sm:p-6 lg:p-8 max-h-[85vh] overflow-y-auto bg-gradient-to-br from-background via-card to-background">
+              <div className="max-w-5xl mx-auto glass-effect rounded-2xl sm:rounded-3xl lg:rounded-[2rem] shadow-glow-lg border border-primary/20 p-6 sm:p-8 lg:p-16" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 <div className="space-y-8 sm:space-y-10 lg:space-y-12">
                   {reportData.textReport && (
                     <div className="whitespace-pre-wrap leading-relaxed">
@@ -466,13 +490,13 @@ const IdentityCollisionForm: React.FC = () => {
                         if (paragraph.startsWith('###')) {
                           return (
                             <div key={index} className="relative my-6 sm:my-8 lg:my-10">
-                              <div className="bg-gradient-to-r from-[#32230D] to-[#8D6B4E] p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl shadow-lg">
-                                <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white leading-tight text-center">
+                              <div className="bg-gradient-to-r from-primary to-primary/80 p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl shadow-glow-md">
+                                <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-primary-foreground leading-tight text-center">
                                   {paragraph.replace('###', '').replace(/\*\*/g, '').trim()}
                                 </h2>
                               </div>
                               {/* Decorative accent */}
-                              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-[#8D6B4E] to-[#32230D] rounded-full"></div>
+                              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary to-primary/80 rounded-full shadow-glow-sm"></div>
                             </div>
                           );
                         }
@@ -483,14 +507,14 @@ const IdentityCollisionForm: React.FC = () => {
                             <div key={index} className="text-center mb-8 sm:mb-12 lg:mb-16">
                               <div className="relative">
                                 {/* Decorative background gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-r from-[#8D6B4E]/10 via-[#32230D]/5 to-[#8D6B4E]/10 rounded-2xl transform -rotate-1"></div>
-                                <div className="relative bg-gradient-to-br from-[#F8F6F4] to-white p-6 sm:p-8 lg:p-12 rounded-2xl shadow-xl border border-[#8D6B4E]/20">
-                                  <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-[#32230D] via-[#8D6B4E] to-[#32230D] leading-tight tracking-tight">
+                                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl transform -rotate-1"></div>
+                                <div className="relative bg-gradient-to-br from-card to-background p-6 sm:p-8 lg:p-12 rounded-2xl shadow-glow-lg border border-primary/30">
+                                  <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary/80 to-primary leading-tight tracking-tight">
                                     {paragraph.replace('Subject:', '').trim()}
                                   </h1>
                                   {/* Decorative underline */}
                                   <div className="mt-4 sm:mt-6 flex justify-center">
-                                    <div className="w-24 sm:w-32 lg:w-40 h-1 bg-gradient-to-r from-[#8D6B4E] to-[#32230D] rounded-full"></div>
+                                    <div className="w-24 sm:w-32 lg:w-40 h-1 bg-gradient-to-r from-primary to-primary/80 rounded-full shadow-glow-sm"></div>
                                   </div>
                                 </div>
                               </div>
@@ -499,11 +523,20 @@ const IdentityCollisionForm: React.FC = () => {
                         }
 
                         // Handle regular paragraphs with bold text
+                        // Check if this is the first non-header, non-subject paragraph (title)
+                        const isFirstParagraph = index === reportData.textReport.split('\n').findIndex(p =>
+                          p.trim() && !p.startsWith('###') && !p.startsWith('Subject:')
+                        );
+
                         return (
-                          <p key={index} className="text-sm sm:text-base lg:text-lg text-[#2C1810] leading-relaxed mb-4 sm:mb-5 lg:mb-6 px-2 font-medium">
+                          <p key={index} className={`leading-relaxed mb-4 sm:mb-5 lg:mb-6 px-2 font-medium ${
+                            isFirstParagraph
+                              ? 'text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-center mb-8 sm:mb-12 lg:mb-16 text-white'
+                              : 'text-sm sm:text-base lg:text-lg text-white'
+                          }`}>
                             {paragraph.split('**').map((part, partIndex) => {
                               if (partIndex % 2 === 1) {
-                                return <span key={partIndex} className="font-bold text-[#8D6B4E] bg-[#F8F6F4] px-1 py-0.5 rounded">{part}</span>;
+                                return <span key={partIndex} className="font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded shadow-glow-sm">{part}</span>;
                               }
                               return part;
                             })}
@@ -515,14 +548,14 @@ const IdentityCollisionForm: React.FC = () => {
 
                   {/* Call to Action Section */}
                   <div className="relative mt-8 sm:mt-12 lg:mt-16">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#32230D] to-[#8D6B4E] rounded-2xl sm:rounded-3xl transform rotate-1"></div>
-                    <div className="relative bg-gradient-to-br from-[#32230D] via-[#8D6B4E] to-[#32230D] p-6 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl text-center shadow-2xl border border-[#8D6B4E]/30">
-                      <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black text-white mb-4 sm:mb-6 leading-tight">Ready to Transform Your Business?</h2>
-                      <p className="text-base sm:text-lg lg:text-xl text-[#F8F6F4] leading-relaxed mb-6 sm:mb-8 lg:mb-10 px-2 font-medium">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-2xl sm:rounded-3xl transform rotate-1 shadow-glow-lg"></div>
+                    <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary p-6 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl text-center shadow-glow-lg border border-primary/50">
+                      <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black text-primary-foreground mb-4 sm:mb-6 leading-tight">Ready to Transform Your Business?</h2>
+                      <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-6 sm:mb-8 lg:mb-10 px-2 font-medium">
                         This insight is powerful, but action is what creates results. Let's work together to implement these strategies.
                       </p>
                       <Button
-                        className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 lg:py-6 bg-white text-[#32230D] font-black rounded-full shadow-xl hover:bg-[#F8F6F4] hover:scale-105 transition-all duration-300 text-base sm:text-lg lg:text-xl border-2 border-white"
+                        className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 lg:py-6 bg-background text-foreground font-black rounded-full shadow-glow-md hover:bg-card hover:scale-105 transition-all duration-300 text-base sm:text-lg lg:text-xl border-2 border-background"
                         onClick={() => window.open('https://calendly.com/your-calendar-link', '_blank')}
                       >
                         START MY 30 DAYS PLAN

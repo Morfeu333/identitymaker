@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Identity Shift Blueprint - Assessment System Design */
+
+/* Global dark theme enforcement */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #10151f !important;
+  color: #f2f2f2 !important;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+#root {
+  background-color: #10151f !important;
+  min-height: 100vh;
+}
+
+@layer base {
+  :root {
+    /* Dark Theme Color Palette - Based on finaldesign.html */
+    --background: 215 25% 9%; /* Dark navy background #10151f */
+    --foreground: 0 0% 95%; /* Light gray for text #f2f2f2 */
+
+    --card: 215 25% 11%; /* Dark blue cards #1a1e2b */
+    --card-foreground: 0 0% 95%; /* Light gray text on cards #f2f2f2 */
+
+    --popover: 215 25% 11%; /* Dark blue popover #1a1e2b */
+    --popover-foreground: 0 0% 95%; /* Light gray text in popovers #f2f2f2 */
+
+    /* Primary - Cyan from Design System */
+    --primary: 191 100% 50%; /* #00d3ff - Cyan Primary */
+    --primary-foreground: 215 25% 11%; /* Dark blue text on cyan */
+    --primary-hover: 191 100% 45%; /* Darker cyan on hover */
+
+    /* Secondary - Dark Blue for Accents */
+    --secondary: 215 25% 11%; /* Dark blue accent #1a1e2b */
+    --secondary-foreground: 0 0% 95%; /* Light gray text */
+
+    /* Muted - Medium Gray */
+    --muted: 215 25% 11%; /* Dark blue muted #1a1e2b */
+    --muted-foreground: 0 0% 63%; /* Medium gray for muted text #a0a0a0 */
+
+    /* Accent - Yellow Highlights */
+    --accent: 45 98% 62%; /* #fecb38 - Yellow accent */
+    --accent-foreground: 215 25% 11%; /* Dark blue text on yellow */
+
+    /* Success - Cyan */
+    --success: 191 100% 50%; /* #00d3ff - Cyan success */
+    --success-foreground: 215 25% 11%; /* Dark blue text */
+
+    /* Destructive - Yellow for visibility */
+    --destructive: 45 98% 62%; /* #fecb38 - Yellow for errors */
+    --destructive-foreground: 215 25% 11%; /* Dark blue text */
+
+    /* Borders & Inputs - Cyan */
+    --border: 191 100% 50%; /* Cyan border #00d3ff */
+    --input: 215 25% 11%; /* Dark blue input background #1a1e2b */
+    --ring: 191 100% 50%; /* Cyan focus ring */
+
+    /* Assessment System Specific */
+    --assessment-bg: 215 25% 9%; /* Dark navy background #10151f */
+    --assessment-card-bg: 0 0% 100%; /* Keep cards white */
+    --assessment-border: 25 20% 85%; /* Light brown border */
+    --assessment-hover: 25 25% 92%; /* Slightly darker brown on hover */
+
+    /* Gradients - Brown Theme */
+    --gradient-hero: linear-gradient(135deg, hsl(25 22% 34%), hsl(25 32% 20%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(25 20% 95%));
+    --gradient-button: linear-gradient(135deg, hsl(25 22% 34%), hsl(25 32% 20%));
+
+    /* Shadows - Brown Theme */
+    --shadow-form: 0 4px 20px hsl(25 15% 20% / 0.12);
+    --shadow-card: 0 2px 8px hsl(25 15% 20% / 0.10);
+    --shadow-button: 0 2px 4px hsl(25 22% 34% / 0.25);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Enhanced Grid System */
+    --grid-size: 40px;
+    --grid-color: rgba(0, 211, 255, 0.1);
+    --grid-glow: rgba(0, 211, 255, 0.05);
+    --grid-animation-speed: 6s;
+
+    /* Modern Border System */
+    --border-modern: 2px solid #00d3ff;
+    --border-radius-modern: 16px;
+    --glow-outer-low: 0 0 10px rgba(0, 211, 255, 0.1);
+    --glow-outer-medium: 0 0 20px rgba(0, 211, 255, 0.15);
+    --glow-outer-high: 0 0 30px rgba(0, 211, 255, 0.25);
+    --glow-inner-low: inset 0 0 10px rgba(0, 211, 255, 0.03);
+    --glow-inner-medium: inset 0 0 15px rgba(0, 211, 255, 0.05);
+    --glow-inner-high: inset 0 0 20px rgba(0, 211, 255, 0.08);
+
+    /* Glass Effect System */
+    --glass-bg-light: rgba(26, 30, 43, 0.8);
+    --glass-bg-medium: rgba(26, 30, 43, 0.9);
+    --glass-bg-heavy: rgba(26, 30, 43, 0.95);
+    --glass-blur-light: blur(10px);
+    --glass-blur-medium: blur(15px);
+    --glass-blur-heavy: blur(20px);
+
+    /* Animation Variables */
+    --transition-smooth: all 0.3s ease-in-out;
+    --transition-fast: all 0.2s ease-out;
+    --transition-slow: all 0.5s ease-in-out;
+  }
+
+  .dark {
+    /* Dark Mode - Matches our finaldesign.html theme */
+    --background: 215 25% 9%; /* Dark navy background #10151f */
+    --foreground: 0 0% 95%; /* Light gray for text #f2f2f2 */
+
+    --card: 215 25% 11%; /* Dark blue cards #1a1e2b */
+    --card-foreground: 0 0% 95%; /* Light gray text on cards #f2f2f2 */
+
+    --popover: 215 25% 11%; /* Dark blue popover #1a1e2b */
+    --popover-foreground: 0 0% 95%; /* Light gray text in popovers #f2f2f2 */
+
+    --primary: 191 100% 50%; /* #00d3ff - Cyan Primary */
+    --primary-foreground: 215 25% 11%; /* Dark blue text on cyan */
+    --primary-hover: 191 100% 45%; /* Darker cyan on hover */
+
+    --secondary: 215 25% 11%; /* Dark blue accent #1a1e2b */
+    --secondary-foreground: 0 0% 95%; /* Light gray text */
+
+    --muted: 215 25% 11%; /* Dark blue muted #1a1e2b */
+    --muted-foreground: 0 0% 63%; /* Medium gray for muted text #a0a0a0 */
+
+    --accent: 45 98% 62%; /* #fecb38 - Yellow accent */
+    --accent-foreground: 215 25% 11%; /* Dark blue text on yellow */
+
+    --success: 191 100% 50%; /* #00d3ff - Cyan success */
+    --success-foreground: 215 25% 11%; /* Dark blue text */
+
+    --destructive: 45 98% 62%; /* #fecb38 - Yellow for errors */
+    --destructive-foreground: 215 25% 11%; /* Dark blue text */
+
+    --border: 191 100% 50%; /* Cyan border #00d3ff */
+    --input: 215 25% 11%; /* Dark blue input background #1a1e2b */
+    --ring: 191 100% 50%; /* Cyan focus ring */
+
+    --form-builder-bg: 210 24% 10%;
+    --form-field-bg: 210 24% 12%;
+    --form-field-border: 210 24% 16%;
+    --drag-hover: 210 24% 14%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(213 94% 58%), hsl(266 85% 48%));
+    --gradient-card: linear-gradient(145deg, hsl(210 24% 10%), hsl(210 24% 12%));
+    --gradient-button: linear-gradient(135deg, hsl(213 94% 68%), hsl(213 94% 58%));
+
+    --shadow-form: 0 4px 20px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.2);
+    --shadow-button: 0 2px 4px hsl(213 94% 68% / 0.3);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Assessment System Animations */
+  .assessment-card-animate {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .assessment-card-animate:hover {
+    @apply scale-[1.02] shadow-lg;
+  }
+
+  .form-field-animate {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .form-field-animate:hover {
+    @apply scale-105 shadow-md;
+  }
+
+  .drag-over {
+    @apply bg-assessment-hover border-primary border-dashed;
+  }
+
+  /* Assessment System Progress Indicators */
+  .progress-indicator {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Assessment System Button Styles */
+  .assessment-button {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover;
+    @apply transition-all duration-200 ease-in-out;
+    @apply shadow-button-custom hover:shadow-lg;
+  }
+
+  /* Assessment System Card Styles */
+  .assessment-card {
+    @apply bg-card border border-border rounded-lg shadow-card;
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Modern Grid and Border Animations */
+  @keyframes borderGlow {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.3; }
+  }
+
+  @keyframes gridPulse {
+    0% { opacity: 0.05; }
+    50% { opacity: 0.15; }
+    100% { opacity: 0.05; }
+  }
+
+  @keyframes glowPoint {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.5);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+
+  /* Utility classes for modern design */
+  .modern-grid-bg {
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+
+  .modern-card-glow {
+    box-shadow: var(--glow-outer-medium), var(--glow-inner-medium);
+    transition: var(--transition-smooth);
+  }
+
+  .modern-card-glow:hover {
+    box-shadow: var(--glow-outer-high), var(--glow-inner-high);
+    transform: translateY(-2px);
+  }
+
+  .glass-effect {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-medium);
+    -webkit-backdrop-filter: var(--glass-blur-medium);
+  }
+
+  .assessment-card:hover {
+    @apply shadow-lg border-primary/20;
+  }
+
+  /* Typography Hierarchy - Assessment System */
+  .assessment-title {
+    @apply text-2xl font-black text-foreground; /* Extra bold black text */
+  }
+
+  .assessment-subtitle {
+    @apply text-lg font-semibold text-muted-foreground;
+  }
+
+  .assessment-question {
+    @apply text-xl font-bold text-foreground leading-relaxed; /* Bold black text */
+  }
+
+  /* Pattern Indicators */
+  .pattern-indicator {
+    @apply w-12 h-12 rounded-full border-2 border-border;
+    @apply flex items-center justify-center;
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .pattern-indicator.active {
+    @apply border-primary bg-primary text-primary-foreground;
+  }
+
+  /* Grid Pattern Pointer Events Fix */
+  .grid-pattern-background {
+    pointer-events: none;
+  }
+}

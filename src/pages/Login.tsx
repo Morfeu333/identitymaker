@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useAuth } from '@/hooks/useAuth';
 import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern';
 import { cn } from '@/lib/utils';
+import ThemeToggle from '@/components/ThemeToggle';
 
 
 const Login = () => {
@@ -54,18 +55,26 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-br flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Futuristic Grid Background */}
+      <div className="grid-background fixed inset-0 pointer-events-none" />
       <AnimatedGridPattern
-        numSquares={20}
-        maxOpacity={0.04}
-        duration={6}
-        repeatDelay={1}
+        numSquares={25}
+        maxOpacity={0.1}
+        duration={8}
+        repeatDelay={2}
         className={cn(
-          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
-          "inset-x-0 inset-y-[-30%] h-[200%] fill-slate-200/40 stroke-slate-200/40"
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] fill-primary/30 stroke-primary/20"
         )}
       />
-      <div className="w-full max-w-md">
+
+      {/* Theme Toggle - Top Right */}
+      <div className="absolute top-6 right-6 z-20">
+        <ThemeToggle />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
           <img src="https://i.postimg.cc/bvZBJnWq/0143d2e4-4cb5-43f7-b3c0-b623cc1e3447.png" alt="Unshakable Foundation" className="h-10 w-10" />
@@ -75,7 +84,7 @@ const Login = () => {
           </div>
         </div>
 
-        <Card className="assessment-card">
+        <Card className="glass-effect card-glow border-primary/30">
           <CardHeader className="text-center">
             <CardTitle className="assessment-title text-2xl">Sign In</CardTitle>
             <CardDescription className="assessment-subtitle">
@@ -109,7 +118,7 @@ const Login = () => {
               <Button
                 type="submit"
                 className="w-full"
-                variant="assessment"
+                variant="futuristic"
                 disabled={loading}
               >
                 {loading ? 'Signing In...' : 'Sign In'}
@@ -145,7 +154,7 @@ const Login = () => {
                     <Button
                       type="submit"
                       className="w-full"
-                      variant="assessment"
+                      variant="futuristic"
                       disabled={resetLoading}
                     >
                       {resetLoading ? 'Sending...' : 'Send Reset Link'}

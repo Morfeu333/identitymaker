@@ -11,6 +11,7 @@ import { Plus, Save, Eye, ArrowLeft, Mic, Upload } from 'lucide-react';
 import { FormField } from '@/components/forms/FormField';
 import { FieldPalette } from '@/components/forms/FieldPalette';
 import { useToast } from '@/hooks/use-toast';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface FormFieldData {
   id: string;
@@ -294,8 +295,11 @@ export default function CreateForm() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background relative">
+      {/* Futuristic Grid Background */}
+      <div className="grid-background fixed inset-0 pointer-events-none opacity-20" />
+
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
             <Button
@@ -319,6 +323,7 @@ export default function CreateForm() {
             </div>
           </div>
           <div className="flex gap-2">
+            <ThemeToggle />
             <Button
               variant="outline"
               onClick={() => fileInputRef.current?.click()}
@@ -335,6 +340,7 @@ export default function CreateForm() {
               {isPreview ? 'Edit' : 'Preview'}
             </Button>
             <Button
+              variant="futuristic"
               onClick={saveForm}
               disabled={saving || !formTitle.trim()}
             >
@@ -361,7 +367,7 @@ export default function CreateForm() {
           )}
 
           <div className={`${isPreview ? 'lg:col-span-4' : 'lg:col-span-3'}`}>
-            <Card>
+            <Card className="card-glow border-primary/20">
               <CardHeader>
                 <div className="space-y-4">
                   <div>

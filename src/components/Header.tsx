@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Header = () => {
   return (
-    <header className="bg-background border-b border-border sticky top-0 z-50">
+    <header className="bg-background/95 backdrop-blur-md border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo - Unshakable Foundation */}
@@ -16,6 +17,7 @@ const Header = () => {
 
           {/* CTA Buttons - Assessment System Style */}
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Button
               variant="ghost"
               className="hidden md:inline-flex"
@@ -24,8 +26,8 @@ const Header = () => {
               Sign In
             </Button>
             <Button
-              variant="assessment"
-              className="shadow-button-custom"
+              variant="futuristic"
+              className="shadow-button-glow"
               onClick={() => window.location.href = '/cadastro'}
             >
               Get Started

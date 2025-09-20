@@ -18,9 +18,6 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -118,13 +115,7 @@ export default {
 			boxShadow: {
 				'form': 'var(--shadow-form)',
 				'card-custom': 'var(--shadow-card)',
-				'button-custom': 'var(--shadow-button)',
-				// Futuristic Glow Shadows
-				'card-glow': '0 0 15px hsl(var(--primary) / 0.2)',
-				'button-glow': '0 0 10px hsl(var(--primary) / 0.4)',
-				'glow-lg': '0 0 25px hsl(var(--primary) / 0.3)',
-				'glow-md': '0 0 15px hsl(var(--primary) / 0.2)',
-				'glow-sm': '0 0 8px hsl(var(--primary) / 0.15)'
+				'button-custom': 'var(--shadow-button)'
 			}
 		}
 	},

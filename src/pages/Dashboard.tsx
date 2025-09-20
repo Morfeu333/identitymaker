@@ -12,6 +12,7 @@ import { Plus, FileText, BarChart3, Settings, Search, Edit, Copy, User } from 'l
 import { ShareFormDialog } from '@/components/forms/ShareFormDialog';
 import { DeleteFormButton } from '@/components/forms/DeleteFormButton';
 import { FormTypeSelectionDialog } from '@/components/forms/FormTypeSelectionDialog';
+import ThemeToggle from '@/components/ThemeToggle';
 import logo from '@/assets/logo.png';
 
 interface Form {
@@ -196,9 +197,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header - Assessment System Style */}
-      <header className="bg-background border-b border-border">
+    <div className="min-h-screen bg-background relative">
+      {/* Futuristic Grid Background */}
+      <div className="grid-background fixed inset-0 pointer-events-none opacity-30" />
+
+      {/* Header - Futuristic Style */}
+      <header className="bg-background/95 backdrop-blur-md border-b border-border relative z-10">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -212,6 +216,7 @@ const Dashboard = () => {
 
             {/* User Menu */}
             <div className="flex items-center gap-3">
+              <ThemeToggle />
               <span className="text-sm text-muted-foreground hidden md:block">
                 Welcome, {user.user_metadata?.nome || user.email}
               </span>
@@ -223,8 +228,8 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Main Content - Assessment System Style */}
-      <main className="container mx-auto px-6 py-8">
+      {/* Main Content - Futuristic Style */}
+      <main className="container mx-auto px-6 py-8 relative z-10">
         <div className="mb-8">
           <h2 className="assessment-title text-3xl mb-2">
             Welcome to Your Assessment Dashboard
@@ -234,14 +239,14 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Quick Actions - Assessment System Style */}
+        {/* Quick Actions - Futuristic Style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card
-            className="assessment-card assessment-card-animate cursor-pointer group"
+            className="card-glow cursor-pointer group border-primary/20 hover:border-primary/50 transition-all duration-300"
             onClick={() => setShowFormTypeDialog(true)}
           >
             <CardHeader className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors group-hover:shadow-glow-sm">
                 <Plus className="w-6 h-6 text-primary" />
               </div>
               <CardTitle className="text-lg font-semibold">New Assessment</CardTitle>
@@ -252,10 +257,10 @@ const Dashboard = () => {
           </Card>
 
           <Card
-            className="assessment-card assessment-card-animate cursor-pointer group"
+            className="card-glow cursor-pointer group border-primary/20 hover:border-primary/50 transition-all duration-300"
           >
             <CardHeader className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors group-hover:shadow-glow-sm">
                 <FileText className="w-6 h-6 text-primary" />
               </div>
               <CardTitle className="text-lg font-semibold">Assessments Created</CardTitle>
@@ -266,11 +271,11 @@ const Dashboard = () => {
           </Card>
 
           <Card
-            className="assessment-card assessment-card-animate cursor-pointer group"
+            className="card-glow cursor-pointer group border-primary/20 hover:border-primary/50 transition-all duration-300"
             onClick={() => navigate('/usuarios')}
           >
             <CardHeader className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors group-hover:shadow-glow-sm">
                 <User className="w-6 h-6 text-primary" />
               </div>
               <CardTitle className="text-lg font-semibold">Participants</CardTitle>
@@ -281,11 +286,11 @@ const Dashboard = () => {
           </Card>
 
           <Card
-            className="assessment-card assessment-card-animate cursor-pointer group"
+            className="card-glow cursor-pointer group border-primary/20 hover:border-primary/50 transition-all duration-300"
             onClick={() => navigate('/configuracoes')}
           >
             <CardHeader className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors group-hover:shadow-glow-sm">
                 <Settings className="w-6 h-6 text-primary" />
               </div>
               <CardTitle className="text-lg font-semibold">Settings</CardTitle>
@@ -296,8 +301,8 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Forms Management Section - Assessment System Style */}
-        <Card className="assessment-card">
+        {/* Forms Management Section - Futuristic Style */}
+        <Card className="card-glow border-primary/20">
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
@@ -306,7 +311,7 @@ const Dashboard = () => {
                   Manage and monitor your identity assessments
                 </CardDescription>
               </div>
-              <Button variant="assessment" onClick={() => setShowFormTypeDialog(true)}>
+              <Button variant="futuristic" onClick={() => setShowFormTypeDialog(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 New Assessment
               </Button>
@@ -351,7 +356,7 @@ const Dashboard = () => {
                 {/* Forms List */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {filteredForms.slice(0, 6).map((form) => (
-                    <Card key={form.id} className="hover:shadow-md transition-shadow">
+                    <Card key={form.id} className="card-glow border-primary/20 hover:border-primary/50 transition-all duration-300">
                       <CardHeader className="pb-3">
                         <div className="flex justify-between items-start">
                           <CardTitle className="text-base line-clamp-1">{form.title}</CardTitle>

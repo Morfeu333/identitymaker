@@ -21,7 +21,6 @@ const buttonVariants = cva(
         hero: "bg-primary text-primary-foreground hover:bg-primary-hover hover:scale-105 shadow-button-custom text-base font-semibold",
         success: "bg-success text-success-foreground hover:bg-success/90",
         assessment: "bg-primary text-primary-foreground hover:bg-primary-hover shadow-button-custom font-medium",
-        futuristic: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-button-glow button-glow font-medium",
       },
       size: {
         default: "h-10 px-4 py-2",
