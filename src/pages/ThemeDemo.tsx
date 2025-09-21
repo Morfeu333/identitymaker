@@ -9,8 +9,8 @@ import { Sparkles, Zap, Palette, Heart } from 'lucide-react';
 const ThemeDemo = () => {
   return (
     <div className="min-h-screen bg-background text-foreground transition-all duration-300">
-      {/* Grid Background for Futuristic Theme */}
-      <div className="grid-background fixed inset-0 pointer-events-none opacity-0 futuristic-dark:opacity-100 transition-opacity duration-500" />
+      {/* Grid Background for Default Theme */}
+      <div className="grid-background fixed inset-0 pointer-events-none opacity-100 theme-light:opacity-0 theme-dark:opacity-0 transition-opacity duration-500" />
       
       <div className="container mx-auto p-6 relative z-10">
         {/* Header with Theme Toggle */}
@@ -79,7 +79,7 @@ const ThemeDemo = () => {
         </div>
 
         {/* Interactive Components Demo */}
-        <Card className="glass-effect futuristic-dark:glass-effect card-glow mb-8">
+        <Card className="glass-effect card-glow mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Palette className="h-5 w-5 text-primary" />
@@ -99,7 +99,7 @@ const ThemeDemo = () => {
                 <Button variant="outline">Outline</Button>
                 <Button variant="ghost">Ghost</Button>
                 <Button variant="destructive">Destructive</Button>
-                <Button variant="futuristic" className="futuristic-dark:inline-flex hidden">
+                <Button variant="futuristic">
                   Futuristic
                 </Button>
               </div>

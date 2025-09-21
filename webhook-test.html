@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Test - Email Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2d3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .button.secondary {
+            background: #48bb78;
+        }
+        
+        .button.secondary:hover {
+            background: #38a169;
+        }
+        
+        .response-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .response-section h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .response-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box h4 {
+            color: #2b6cb0;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: #2d3748;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Webhook Test Page</h1>
+            <p>Test email collection webhook for IdentityMaker</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h4>📧 Email Collection Webhook Test</h4>
+                <p>This page simulates the webhook call that should be sent when a user enters their email on the first page of the Identity Collision Assessment. Use this to test your n8n workflow setup.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Test Name</label>
+                <input type="text" id="name" value="John Doe" placeholder="Enter name to test">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Test Email Address</label>
+                <input type="email" id="email" value="test@example.com" placeholder="Enter email to test">
+            </div>
+            
+            <div class="form-group">
+                <label for="webhook-url">Webhook URL</label>
+                <input type="url" id="webhook-url" value="https://purposewaze.app.n8n.cloud/webhook/identityColision" placeholder="Enter your webhook URL">
+            </div>
+            
+            <div class="form-group">
+                <button class="button" onclick="sendEmailWebhook()" id="email-btn">
+                    📧 Send Email Collection Webhook
+                </button>
+                <button class="button secondary" onclick="sendFormWebhook()" id="form-btn">
+                    📝 Send Form Submission Webhook
+                </button>
+            </div>
+            
+            <div class="response-section" id="response-section" style="display: none;">
+                <h3>Webhook Response</h3>
+                <div id="status-indicator"></div>
+                <div class="response-box" id="response-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function sendEmailWebhook() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const webhookUrl = document.getElementById('webhook-url').value;
+            const btn = document.getElementById('email-btn');
+
+            if (!name || !email || !webhookUrl) {
+                alert('Please enter name, email and webhook URL');
+                return;
+            }
+            
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>Sending...';
+            
+            const payload = {
+                formId: "5ac3cafd-72cd-40b0-99ee-1b4825906122",
+                formTitle: "Identity Collision Assessment",
+                userName: name,
+                userEmail: email,
+                submissionId: generateUUID(),
+                submissionTimestamp: new Date().toISOString(),
+                eventType: "email_collected",
+                metadata: {
+                    totalQuestions: 0,
+                    submissionSource: "identity_collision_form",
+                    userAgent: navigator.userAgent
+                }
+            };
+            
+            try {
+                console.log('📧 Sending email collection webhook:', payload);
+                
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const responseText = await response.text();
+                let responseData;
+                
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch {
+                    responseData = responseText;
+                }
+                
+                showResponse({
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    data: responseData,
+                    payload: payload,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+                
+            } catch (error) {
+                console.error('Webhook error:', error);
+                showResponse({
+                    error: error.message,
+                    payload: payload,
+                    timestamp: new Date().toISOString()
+                }, false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '📧 Send Email Collection Webhook';
+            }
+        }
+        
+        async function sendFormWebhook() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const webhookUrl = document.getElementById('webhook-url').value;
+            const btn = document.getElementById('form-btn');
+
+            if (!name || !email || !webhookUrl) {
+                alert('Please enter name, email and webhook URL');
+                return;
+            }
+            
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>Sending...';
+            
+            const payload = {
+                formId: "5ac3cafd-72cd-40b0-99ee-1b4825906122",
+                formTitle: "Identity Collision Assessment",
+                userName: name,
+                userEmail: email,
+                submissionId: generateUUID(),
+                submissionTimestamp: new Date().toISOString(),
+                eventType: "form_submitted",
+                formResponses: {
+                    "Current Role": "Software Developer",
+                    "Years of Experience": "5-10 years",
+                    "Industry": "Technology",
+                    "Career Satisfaction": "7",
+                    "Primary Challenge": "Work-life balance",
+                    "Future Goals": "Leadership position",
+                    "Skills Gap": "Management skills",
+                    "Learning Preference": "Online courses",
+                    "Motivation Level": "8",
+                    "Change Readiness": "Very ready",
+                    "Support System": "Strong",
+                    "Timeline": "6-12 months"
+                },
+                metadata: {
+                    totalQuestions: 12,
+                    submissionSource: "identity_collision_form",
+                    userAgent: navigator.userAgent
+                }
+            };
+            
+            try {
+                console.log('📝 Sending form submission webhook:', payload);
+                
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const responseText = await response.text();
+                let responseData;
+                
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch {
+                    responseData = responseText;
+                }
+                
+                showResponse({
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    data: responseData,
+                    payload: payload,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+                
+            } catch (error) {
+                console.error('Webhook error:', error);
+                showResponse({
+                    error: error.message,
+                    payload: payload,
+                    timestamp: new Date().toISOString()
+                }, false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '📝 Send Form Submission Webhook';
+            }
+        }
+        
+        function showResponse(response, success) {
+            const section = document.getElementById('response-section');
+            const statusIndicator = document.getElementById('status-indicator');
+            const responseBox = document.getElementById('response-box');
+            
+            section.style.display = 'block';
+            
+            if (success) {
+                statusIndicator.innerHTML = `<span class="status success">✅ Success - ${response.status} ${response.statusText}</span>`;
+            } else {
+                statusIndicator.innerHTML = `<span class="status error">❌ Error - ${response.error || response.status}</span>`;
+            }
+            
+            responseBox.textContent = JSON.stringify(response, null, 2);
+            
+            // Scroll to response
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        
+        // Copy response to clipboard
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('response-box')) {
+                navigator.clipboard.writeText(e.target.textContent);
+                alert('Response copied to clipboard!');
+            }
+        });
+    </script>
+</body>
+</html>

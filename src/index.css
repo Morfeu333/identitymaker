@@ -9,83 +9,80 @@
 
 @layer base {
   :root {
-    /* Assessment System Color Palette - Based on Identity Shift Blueprint */
-    --background: 25 15% 96%; /* Light brown background #F7F5F3 */
-    --foreground: 0 0% 0%; /* Bold black for headings and main text */
+    /* DEFAULT THEME - Futuristic Dark (Main Theme) */
+    /* Background System - Dark Navy */
+    --background: 215 25% 9%;              /* #10151f - Deep Navy Background */
+    --foreground: 0 0% 95%;                /* #f2f2f2 - Light Gray Text */
 
-    --card: 0 0% 100%; /* Keep cards white for contrast */
-    --card-foreground: 0 0% 0%; /* Bold black text on cards */
+    --card: 215 25% 11%;                   /* #1a1e2b - Dark Blue Cards */
+    --card-foreground: 0 0% 95%;           /* #f2f2f2 - Light Gray Text */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%; /* Bold black text in popovers */
+    --popover: 215 25% 11%;                /* #1a1e2b */
+    --popover-foreground: 0 0% 95%;        /* #f2f2f2 */
 
-    /* Primary - Warm Brown/Taupe from Assessment System */
-    --primary: 25 22% 34%; /* #6A5644 - Primary Brown Button */
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 25 32% 20%; /* #433421 - Dark Brown Button */
+    /* Primary Accent (Cyan) */
+    --primary: 191 100% 50%;               /* #00d3ff - Vibrant Cyan */
+    --primary-foreground: 215 25% 9%;      /* #10151f - Dark text for high contrast on cyan */
+    --primary-hover: 191 100% 45%;         /* Darker cyan on hover */
 
-    /* Secondary - Light Brown for Accents */
-    --secondary: 25 20% 88%; /* Light brown accent #E8E2DC */
-    --secondary-foreground: 0 0% 0%; /* Bold black text */
+    /* Secondary Accent (Yellow) */
+    --secondary: 45 98% 62%;               /* #fecb38 - Bright Yellow */
+    --secondary-foreground: 215 25% 9%;    /* #10151f - Dark text for high contrast on yellow */
 
-    /* Muted - Light Brown */
-    --muted: 25 20% 88%; /* Light brown muted #E8E2DC */
-    --muted-foreground: 25 15% 35%; /* Darker brown for muted text #6B5B4F */
+    /* Muted Colors */
+    --muted: 215 25% 25%;                  /* #333c4d */
+    --muted-foreground: 0 0% 63%;          /* #a0a0a0 - Medium Gray */
 
-    /* Accent - Assessment System Brown */
-    --accent: 25 22% 34%;
-    --accent-foreground: 0 0% 100%;
+    /* General Accent (Used for hovers, etc.) */
+    --accent: 215 25% 15%;                 /* #202633 */
+    --accent-foreground: 0 0% 95%;         /* #f2f2f2 */
 
-    /* Success - Keep existing green */
-    --success: 134 61% 41%;
-    --success-foreground: 0 0% 100%;
+    /* Semantic Colors */
+    --destructive: 350 90% 60%;            /* #f64c63 - Vibrant Red */
+    --destructive-foreground: 0 0% 95%;    /* #f2f2f2 */
+    --warning: 45 98% 62%;                 /* #fecb38 - Bright Yellow */
+    --warning-foreground: 215 25% 9%;      /* #10151f */
+    --success: 191 100% 50%;               /* #00d3ff - Cyan success */
+    --success-foreground: 215 25% 9%;      /* #10151f */
 
-    /* Destructive */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    /* Border & Input System */
+    --border: 215 25% 20%;                 /* #293040 */
+    --input: 215 25% 15%;                  /* #202633 */
+    --ring: 191 100% 50%;                  /* #00d3ff - Cyan focus ring */
 
-    /* Borders & Inputs - Light Brown */
-    --border: 25 20% 85%; /* Light brown border #E0D7CE */
-    --input: 25 20% 85%; /* Light brown input background */
-    --ring: 25 22% 34%;
+    /* Futuristic Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(215 25% 12%), hsl(215 25% 9%));
+    --gradient-card: linear-gradient(145deg, hsl(215 25% 15%), hsl(215 25% 11%));
+    --gradient-button: linear-gradient(135deg, hsl(191 100% 50%), hsl(191 100% 60%));
 
-    /* Assessment System Specific */
-    --assessment-bg: 25 15% 96%; /* Light brown background */
-    --assessment-card-bg: 0 0% 100%; /* Keep cards white */
-    --assessment-border: 25 20% 85%; /* Light brown border */
-    --assessment-hover: 25 25% 92%; /* Slightly darker brown on hover */
+    /* Futuristic Glow Shadows */
+    --shadow-card: 0 0 15px hsl(191 100% 50% / 0.2);
+    --shadow-button: 0 0 10px hsl(191 100% 50% / 0.4);
+    --shadow-glow-lg: 0 0 25px hsl(191 100% 50% / 0.3);
+    --shadow-glow-md: 0 0 15px hsl(191 100% 50% / 0.2);
+    --shadow-glow-sm: 0 0 8px hsl(191 100% 50% / 0.15);
 
-    /* Gradients - Brown Theme */
-    --gradient-hero: linear-gradient(135deg, hsl(25 22% 34%), hsl(25 32% 20%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(25 20% 95%));
-    --gradient-button: linear-gradient(135deg, hsl(25 22% 34%), hsl(25 32% 20%));
-
-    /* Shadows - Brown Theme */
-    --shadow-form: 0 4px 20px hsl(25 15% 20% / 0.12);
-    --shadow-card: 0 2px 8px hsl(25 15% 20% / 0.10);
-    --shadow-button: 0 2px 4px hsl(25 22% 34% / 0.25);
+    /* Assessment System Specific - Futuristic Override */
+    --assessment-bg: 215 25% 9%;           /* Dark navy background */
+    --assessment-card-bg: 215 25% 11%;     /* Dark blue cards */
+    --assessment-border: 191 100% 50%;     /* Cyan borders */
+    --assessment-hover: 215 25% 15%;       /* Slightly lighter on hover */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Futuristic */
+    --sidebar-background: 215 25% 9%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 191 100% 50%;
+    --sidebar-primary-foreground: 215 25% 9%;
+    --sidebar-accent: 215 25% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 215 25% 20%;
+    --sidebar-ring: 191 100% 50%;
   }
 
-  .dark {
-    /* Dark Mode - Assessment System Dark Theme */
+  .theme-dark {
+    /* Dark Theme - Assessment System Dark Theme (Alternative) */
     --background: 210 24% 8%;
     --foreground: 210 8% 92%;
 
@@ -140,76 +137,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  /* NEW: Futuristic Dark Mode Theme - Cybernetic Blueprint */
-  .futuristic-dark {
-    /* Base Theme Colors (Dark Mode) */
-    --background: 215 25% 9%;          /* #10151f - Deep Navy */
-    --foreground: 0 0% 95%;            /* #f2f2f2 - Light Gray Text */
 
-    --card: 215 25% 11%;               /* #1a1e2b - Dark Blue Card */
-    --card-foreground: 0 0% 95%;       /* #f2f2f2 - Light Gray Text */
-
-    --popover: 215 25% 11%;            /* #1a1e2b */
-    --popover-foreground: 0 0% 95%;    /* #f2f2f2 */
-
-    /* Primary Accent (Cyan) */
-    --primary: 191 100% 50%;           /* #00d3ff - Vibrant Cyan */
-    --primary-foreground: 215 25% 9%;  /* #10151f - Dark text for high contrast on cyan */
-    --primary-hover: 191 100% 45%;     /* Darker cyan on hover */
-
-    /* Secondary Accent (Yellow) */
-    --secondary: 45 98% 62%;           /* #fecb38 - Bright Yellow */
-    --secondary-foreground: 215 25% 9%;/* #10151f - Dark text for high contrast on yellow */
-
-    /* Muted Colors */
-    --muted: 215 25% 25%;              /* #333c4d */
-    --muted-foreground: 0 0% 63%;      /* #a0a0a0 - Medium Gray */
-
-    /* General Accent (Used for hovers, etc.) */
-    --accent: 215 25% 15%;             /* #202633 */
-    --accent-foreground: 0 0% 95%;     /* #f2f2f2 */
-
-    /* Semantic Colors */
-    --destructive: 350 90% 60%;        /* #f64c63 - Vibrant Red */
-    --destructive-foreground: 0 0% 95%;/* #f2f2f2 */
-    --warning: 45 98% 62%;             /* #fecb38 - Bright Yellow */
-    --warning-foreground: 215 25% 9%;  /* #10151f */
-    --success: 191 100% 50%;           /* #00d3ff - Cyan success */
-    --success-foreground: 215 25% 9%;  /* #10151f */
-
-    /* Border & Input System */
-    --border: 215 25% 20%;             /* #293040 */
-    --input: 215 25% 15%;              /* #202633 */
-    --ring: 191 100% 50%;              /* #00d3ff - Cyan focus ring */
-
-    /* Futuristic Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(215 25% 12%), hsl(215 25% 9%));
-    --gradient-card: linear-gradient(145deg, hsl(215 25% 15%), hsl(215 25% 11%));
-    --gradient-button: linear-gradient(135deg, hsl(191 100% 50%), hsl(191 100% 60%));
-
-    /* Futuristic Glow Shadows */
-    --shadow-card: 0 0 15px hsl(191 100% 50% / 0.2);
-    --shadow-button: 0 0 10px hsl(191 100% 50% / 0.4);
-    --shadow-glow-lg: 0 0 25px hsl(191 100% 50% / 0.3);
-    --shadow-glow-md: 0 0 15px hsl(191 100% 50% / 0.2);
-    --shadow-glow-sm: 0 0 8px hsl(191 100% 50% / 0.15);
-
-    /* Assessment System Specific - Futuristic Override */
-    --assessment-bg: 215 25% 9%;       /* Dark navy background */
-    --assessment-card-bg: 215 25% 11%; /* Dark blue cards */
-    --assessment-border: 191 100% 50%; /* Cyan borders */
-    --assessment-hover: 215 25% 15%;   /* Slightly lighter on hover */
-
-    /* Sidebar - Futuristic */
-    --sidebar-background: 215 25% 9%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 191 100% 50%;
-    --sidebar-primary-foreground: 215 25% 9%;
-    --sidebar-accent: 215 25% 15%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 215 25% 20%;
-    --sidebar-ring: 191 100% 50%;
-  }
 }
 
 @layer base {
@@ -220,12 +148,13 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    /* Enhanced mobile scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
-  /* Apply futuristic dark theme by default */
-  html {
-    @apply futuristic-dark;
-  }
+
 
   /* Futuristic Dark Mode Utility Classes */
   .glass-effect {
@@ -328,5 +257,268 @@
 
   .pattern-indicator.active {
     @apply border-primary bg-primary text-primary-foreground;
+  }
+
+  /* ========================================
+     RESPONSIVE IMPROVEMENTS - PHASE 2
+     ======================================== */
+
+  /* Touch-friendly button sizing */
+  .btn-touch {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Enhanced mobile interactions */
+  @media (hover: none) and (pointer: coarse) {
+    /* Mobile-specific styles - disable hover effects */
+    .hover\:scale-105:hover {
+      transform: none;
+    }
+
+    .card-glow:hover {
+      transform: none;
+      box-shadow: var(--shadow-card);
+    }
+
+    .button-glow:hover {
+      transform: none;
+      box-shadow: var(--shadow-button);
+    }
+
+    /* Larger touch targets on mobile */
+    button, .btn, [role="button"] {
+      min-height: 44px;
+      padding: 12px 16px;
+    }
+
+    /* Reduce animations on mobile for performance */
+    .grid-background {
+      animation: none;
+    }
+
+    /* Better mobile form interactions */
+    input, textarea, select {
+      font-size: 16px; /* Prevent zoom on iOS */
+    }
+  }
+
+  /* Improved focus states for accessibility */
+  .focus-visible\:ring-2:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Smooth scrolling for better UX */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced mobile viewport handling */
+  @media screen and (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Better mobile spacing */
+    .space-y-6 > * + * {
+      margin-top: 1rem;
+    }
+
+    .space-y-8 > * + * {
+      margin-top: 1.5rem;
+    }
+
+    /* Mobile-optimized glass effects */
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  }
+
+  /* Enhanced tablet styles */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  /* Better loading states */
+  .loading-skeleton {
+    background: linear-gradient(90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading-shimmer 2s infinite;
+  }
+
+  @keyframes loading-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ========================================
+     SMOOTH ANIMATIONS - ENHANCED
+     ======================================== */
+
+  /* Page Transition Animations */
+  .page-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+  }
+
+  .page-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-exit-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 200ms ease-in, transform 200ms ease-in;
+  }
+
+  /* Question Card Animations */
+  .question-card-enter {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+
+  .question-card-enter-active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Radio Button Smooth Animations */
+  .radio-option {
+    transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  .radio-option:hover {
+    transform: translateX(8px) scale(1.02);
+    background: rgba(0, 211, 255, 0.05);
+    border-color: hsl(var(--primary) / 0.6);
+  }
+
+  .radio-option.selected {
+    transform: translateX(12px) scale(1.03);
+    background: rgba(0, 211, 255, 0.1);
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  /* Progress Bar Smooth Animation */
+  .progress-bar {
+    transition: width 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: progress-shine 2s infinite;
+  }
+
+  @keyframes progress-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Button Navigation Animations */
+  .nav-button {
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 300ms ease-out, height 300ms ease-out;
+  }
+
+  .nav-button:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Floating Animation for Cards */
+  .float-animation {
+    animation: gentle-float 6s ease-in-out infinite;
+  }
+
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(0.5deg); }
+    66% { transform: translateY(4px) rotate(-0.3deg); }
+  }
+
+  /* Stagger Animation for Multiple Elements */
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: stagger-in 500ms ease-out forwards;
+  }
+
+  .stagger-item:nth-child(1) { animation-delay: 100ms; }
+  .stagger-item:nth-child(2) { animation-delay: 200ms; }
+  .stagger-item:nth-child(3) { animation-delay: 300ms; }
+  .stagger-item:nth-child(4) { animation-delay: 400ms; }
+  .stagger-item:nth-child(5) { animation-delay: 500ms; }
+
+  @keyframes stagger-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

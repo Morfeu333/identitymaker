@@ -260,7 +260,7 @@ const IdentityCollisionForm: React.FC = () => {
     switch (field.type) {
       case 'radio':
         return (
-          <div key={field.id} className="space-y-4">
+          <div key={field.id} className="space-y-4 stagger-item">
             <Label className="text-xl font-bold text-foreground leading-relaxed">{field.label}</Label>
             <RadioGroup
               value={value}
@@ -268,7 +268,13 @@ const IdentityCollisionForm: React.FC = () => {
               className="space-y-3"
             >
               {field.options?.map((option, index) => (
-                <div key={index} className="flex items-start space-x-4 p-3 rounded-lg border border-border hover:border-primary/50 transition-colors">
+                <div
+                  key={index}
+                  className={`flex items-start space-x-4 p-3 rounded-lg border border-border radio-option stagger-item ${
+                    value === option ? 'selected' : ''
+                  }`}
+                  style={{ animationDelay: `${(index + 2) * 100}ms` }}
+                >
                   <RadioGroupItem value={option} id={`${field.id}-${index}`} className="mt-1 border-primary text-primary" />
                   <Label
                     htmlFor={`${field.id}-${index}`}
@@ -342,7 +348,7 @@ const IdentityCollisionForm: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-2 sm:p-4 relative">
+    <div className="min-h-screen bg-background flex items-center justify-center p-2 sm:p-4 relative page-enter page-enter-active">
       {/* Futuristic Grid Background */}
       <div className="grid-background fixed inset-0 pointer-events-none" />
 
@@ -353,14 +359,14 @@ const IdentityCollisionForm: React.FC = () => {
 
       <div className="w-full max-w-2xl lg:max-w-4xl relative z-10">
         {step === 'email' && (
-          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8">
-            <div className="text-center mb-8">
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 float-animation question-card-enter question-card-enter-active">
+            <div className="text-center mb-8 stagger-item">
               <h1 className="text-3xl font-bold text-foreground mb-4">{formData.title}</h1>
               <p className="text-muted-foreground text-lg leading-relaxed">{formData.description}</p>
             </div>
 
             <form onSubmit={handleEmailSubmit} className="space-y-6">
-              <div>
+              <div className="stagger-item">
                 <Label htmlFor="email" className="text-base font-medium text-foreground mb-2 block">
                   Email Address
                 </Label>
@@ -371,11 +377,11 @@ const IdentityCollisionForm: React.FC = () => {
                   onChange={(e) => setUserEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="h-12 text-base border-primary/30 focus:border-primary focus:ring-primary/20"
+                  className="h-12 text-base border-primary/30 focus:border-primary focus:ring-primary/20 transition-all duration-200"
                 />
               </div>
 
-              <Button type="submit" variant="futuristic" className="w-full h-12 text-base font-semibold">
+              <Button type="submit" variant="futuristic" className="w-full h-12 text-base font-semibold stagger-item nav-button">
                 Continue to Assessment →
               </Button>
             </form>
@@ -383,9 +389,9 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'form' && currentField && (
-          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 lg:p-10" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 lg:p-10 float-animation question-card-enter question-card-enter-active" style={{ fontFamily: 'Inter, sans-serif' }}>
             {/* Progress indicator */}
-            <div className="mb-8">
+            <div className="mb-8 stagger-item">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-sm text-primary font-semibold">
                   Question {currentQuestionIndex + 1} of {formData?.fields.length}
@@ -396,7 +402,7 @@ const IdentityCollisionForm: React.FC = () => {
               </div>
               <div className="w-full bg-muted rounded-full h-3 shadow-inner">
                 <div
-                  className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500 ease-out shadow-glow-sm"
+                  className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full progress-bar shadow-glow-sm"
                   style={{ width: `${((currentQuestionIndex + 1) / (formData?.fields.length || 1)) * 100}%` }}
                 ></div>
               </div>
@@ -409,13 +415,13 @@ const IdentityCollisionForm: React.FC = () => {
               </div>
 
               {/* Navigation buttons */}
-              <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
+              <div className="flex justify-between items-center mt-8 pt-6 border-t border-border stagger-item">
                 <Button
                   type="button"
                   onClick={handlePreviousQuestion}
                   disabled={isFirstQuestion}
                   variant="outline"
-                  className="px-6 py-3 border-primary/50 text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 border-primary/50 text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed nav-button"
                 >
                   ← Previous
                 </Button>
@@ -425,7 +431,7 @@ const IdentityCollisionForm: React.FC = () => {
                     onClick={handleFormSubmit}
                     disabled={!canProceed || submitting}
                     variant="futuristic"
-                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed nav-button"
                   >
                     {submitting ? 'Submitting...' : 'Submit Assessment'}
                   </Button>
@@ -435,7 +441,7 @@ const IdentityCollisionForm: React.FC = () => {
                     onClick={handleNextQuestion}
                     disabled={!canProceed}
                     variant="futuristic"
-                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-8 py-3 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed nav-button"
                   >
                     Next →
                   </Button>
@@ -477,9 +483,9 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'report' && reportData && (
-          <div className="glass-effect card-glow border-primary/30 overflow-hidden">
+          <div className="glass-effect card-glow border-primary/30 overflow-hidden float-animation question-card-enter question-card-enter-active">
             <div className="p-3 sm:p-6 lg:p-8 max-h-[85vh] overflow-y-auto bg-gradient-to-br from-background via-card to-background">
-              <div className="max-w-5xl mx-auto glass-effect rounded-2xl sm:rounded-3xl lg:rounded-[2rem] shadow-glow-lg border border-primary/20 p-6 sm:p-8 lg:p-16" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+              <div className="max-w-5xl mx-auto glass-effect rounded-2xl sm:rounded-3xl lg:rounded-[2rem] shadow-glow-lg border border-primary/20 p-6 sm:p-8 lg:p-16 stagger-item" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 <div className="space-y-8 sm:space-y-10 lg:space-y-12">
                   {reportData.textReport && (
                     <div className="whitespace-pre-wrap leading-relaxed">
@@ -534,9 +540,14 @@ const IdentityCollisionForm: React.FC = () => {
                               ? 'text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-center mb-8 sm:mb-12 lg:mb-16 text-white'
                               : 'text-sm sm:text-base lg:text-lg text-white'
                           }`}>
-                            {paragraph.split('**').map((part, partIndex) => {
+                            {paragraph
+                              // Clean up markdown link artifacts [text]() -> text
+                              .replace(/\[([^\]]+)\]\(\)/g, '$1')
+                              .split('**').map((part, partIndex) => {
                               if (partIndex % 2 === 1) {
-                                return <span key={partIndex} className="font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded shadow-glow-sm">{part}</span>;
+                                // Remove shadow from title text, keep it for smaller text
+                                const shadowClass = isFirstParagraph ? '' : 'shadow-glow-sm';
+                                return <span key={partIndex} className={`font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded ${shadowClass}`}>{part}</span>;
                               }
                               return part;
                             })}
