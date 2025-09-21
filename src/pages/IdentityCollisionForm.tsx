@@ -39,6 +39,7 @@ const IdentityCollisionForm: React.FC = () => {
 
   // State management
   const [step, setStep] = useState<'email' | 'form' | 'loading' | 'success' | 'report'>('email');
+  const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [formData, setFormData] = useState<FormData | null>(null);
   const [formValues, setFormValues] = useState<Record<string, string>>({});
@@ -91,16 +92,46 @@ const IdentityCollisionForm: React.FC = () => {
     }
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userEmail.trim()) {
+
+    // Validation for both name and email
+    if (!userName.trim() || !userEmail.trim()) {
       toast({
-        title: "Email Required",
-        description: "Please enter your email address.",
+        title: "Required Fields",
+        description: "Please enter your name and email address.",
         variant: "destructive"
       });
       return;
     }
+
+    // Send email collection webhook (non-blocking)
+    try {
+      const emailWebhookData = {
+        name: userName,
+        email: userEmail,
+        formId,
+        timestamp: new Date().toISOString(),
+        source: 'identity_collision_assessment',
+        eventType: 'email_collected'
+      };
+
+      console.log('📧 Sending email collection webhook:', emailWebhookData);
+
+      // Non-blocking webhook call
+      fetch('https://services.leadconnectorhq.com/hooks/3KJeKktlnhQab7T0zrpM/webhook-trigger/136b55dd-e34e-47ca-8dac-897b1bf61a16', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(emailWebhookData)
+      }).catch(error => {
+        console.warn('Email webhook failed (non-blocking):', error);
+      });
+
+    } catch (error) {
+      console.warn('Email webhook error (non-blocking):', error);
+    }
+
+    // Continue existing flow unchanged
     setStep('form');
   };
 
@@ -227,6 +258,39 @@ const IdentityCollisionForm: React.FC = () => {
         setStep('success'); // Show success screen if report takes too long
       }
     }, 3000);
+  };
+
+  const handleStartPlanClick = async () => {
+    try {
+      // Send webhook to track button click
+      const planWebhookData = {
+        name: userName,
+        email: userEmail,
+        formId,
+        submissionId,
+        action: 'start_30_days_plan',
+        timestamp: new Date().toISOString(),
+        reportData: reportData ? 'generated' : 'not_available',
+        eventType: 'plan_button_clicked'
+      };
+
+      console.log('🚀 Sending 30 Days Plan webhook:', planWebhookData);
+
+      // Non-blocking webhook call
+      fetch('https://purposewaze.app.n8n.cloud/webhook/leadclick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(planWebhookData)
+      }).catch(error => {
+        console.warn('Plan webhook failed (non-blocking):', error);
+      });
+
+    } catch (error) {
+      console.warn('Plan webhook error (non-blocking):', error);
+    }
+
+    // Redirect to new URL
+    window.open('https://purposewaze.com/mind-insurance-challenge', '_blank');
   };
 
   const handleFieldChange = (fieldId: string, value: string) => {
@@ -366,6 +430,21 @@ const IdentityCollisionForm: React.FC = () => {
             </div>
 
             <form onSubmit={handleEmailSubmit} className="space-y-6">
+              <div className="stagger-item">
+                <Label htmlFor="name" className="text-base font-medium text-foreground mb-2 block">
+                  Full Name
+                </Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="Your full name"
+                  required
+                  className="h-12 text-base border-primary/30 focus:border-primary focus:ring-primary/20 transition-all duration-200"
+                />
+              </div>
+
               <div className="stagger-item">
                 <Label htmlFor="email" className="text-base font-medium text-foreground mb-2 block">
                   Email Address
@@ -567,7 +646,7 @@ const IdentityCollisionForm: React.FC = () => {
                       </p>
                       <Button
                         className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 lg:py-6 bg-background text-foreground font-black rounded-full shadow-glow-md hover:bg-card hover:scale-105 transition-all duration-300 text-base sm:text-lg lg:text-xl border-2 border-background"
-                        onClick={() => window.open('https://calendly.com/your-calendar-link', '_blank')}
+                        onClick={handleStartPlanClick}
                       >
                         START MY 30 DAYS PLAN
                       </Button>
