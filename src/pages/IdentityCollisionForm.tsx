@@ -48,6 +48,11 @@ const IdentityCollisionForm: React.FC = () => {
   const [submissionId, setSubmissionId] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
+  // Enhanced loading state management
+  const [currentLoadingMessage, setCurrentLoadingMessage] = useState('');
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingStartTime, setLoadingStartTime] = useState<number>(0);
+
   // Load form configuration
   useEffect(() => {
     if (formId) {
@@ -90,6 +95,42 @@ const IdentityCollisionForm: React.FC = () => {
         variant: "destructive"
       });
     }
+  };
+
+  // Enhanced contextual loading progress management
+  const startContextualLoading = () => {
+    const startTime = Date.now();
+    setLoadingStartTime(startTime);
+    setLoadingProgress(0);
+    setCurrentLoadingMessage('Initializing AI analysis system...');
+
+    const updateLoadingContext = () => {
+      const elapsed = (Date.now() - startTime) / 1000; // Convert to seconds
+
+      if (elapsed < 5) {
+        setCurrentLoadingMessage("Initializing AI analysis system...");
+        setLoadingProgress(Math.min((elapsed / 5) * 15, 15));
+      } else if (elapsed < 15) {
+        setCurrentLoadingMessage("Analyzing your responses... We've identified your primary pattern");
+        setLoadingProgress(15 + Math.min(((elapsed - 5) / 10) * 35, 35));
+      } else if (elapsed < 30) {
+        setCurrentLoadingMessage("Generating your personalized insights... 47% complete");
+        setLoadingProgress(50 + Math.min(((elapsed - 15) / 15) * 25, 25));
+      } else if (elapsed < 60) {
+        setCurrentLoadingMessage("Crafting your custom protocol... Almost ready");
+        setLoadingProgress(75 + Math.min(((elapsed - 30) / 30) * 20, 20));
+      } else {
+        setCurrentLoadingMessage("Finalizing your comprehensive report... Delivering results");
+        setLoadingProgress(Math.min(95 + ((elapsed - 60) / 10) * 5, 99)); // Slowly approach 99% after 60s
+      }
+
+      // Continue updating unless we've moved away from loading step
+      if (step === 'loading') {
+        setTimeout(updateLoadingContext, 200); // Update every 200ms for smoother progress
+      }
+    };
+
+    updateLoadingContext();
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -139,6 +180,9 @@ const IdentityCollisionForm: React.FC = () => {
     e.preventDefault();
     setSubmitting(true);
     setStep('loading');
+
+    // Start the contextual loading experience
+    startContextualLoading();
 
     try {
       // Prepare form responses
@@ -205,7 +249,7 @@ const IdentityCollisionForm: React.FC = () => {
   };
 
   const pollForReport = async (submissionId: string) => {
-    const maxAttempts = 40; // 2 minutes with 3-second intervals
+    const maxAttempts = 20; // 1 minute with 3-second intervals (60 seconds total)
     let attempts = 0;
 
     const poll = async (): Promise<boolean> => {
@@ -221,7 +265,11 @@ const IdentityCollisionForm: React.FC = () => {
 
         if (!error && report && report.report_json) {
           console.log('✅ Report found! Displaying report...');
-          
+
+          // Complete the loading progress
+          setLoadingProgress(100);
+          setCurrentLoadingMessage("Report ready! Displaying your results...");
+
           // Process the report data
           const reportData = typeof report.report_json === 'string'
             ? { textReport: report.report_json, assessmentType: 'Identity Collision Assessment' }
@@ -423,7 +471,7 @@ const IdentityCollisionForm: React.FC = () => {
 
       <div className="w-full max-w-2xl lg:max-w-4xl relative z-10">
         {step === 'email' && (
-          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 float-animation question-card-enter question-card-enter-active">
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 question-card-enter question-card-enter-active">
             <div className="text-center mb-8 stagger-item">
               <h1 className="text-3xl font-bold text-foreground mb-4">{formData.title}</h1>
               <p className="text-muted-foreground text-lg leading-relaxed">{formData.description}</p>
@@ -468,7 +516,7 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'form' && currentField && (
-          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 lg:p-10 float-animation question-card-enter question-card-enter-active" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <div className="glass-effect card-glow border-primary/30 p-6 sm:p-8 lg:p-10 question-card-enter question-card-enter-active" style={{ fontFamily: 'Inter, sans-serif' }}>
             {/* Progress indicator */}
             <div className="mb-8 stagger-item">
               <div className="flex justify-between items-center mb-3">
@@ -531,16 +579,104 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'loading' && (
-          <div className="glass-effect card-glow border-primary/30 p-8 text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-6 shadow-glow-md"></div>
-            <h2 className="text-2xl font-bold text-foreground mb-4">Generating Your Report</h2>
-            <p className="text-muted-foreground text-lg">Our AI is analyzing your responses and creating a personalized assessment...</p>
-            <div className="mt-6 flex justify-center">
-              <div className="flex space-x-2">
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          <div className="glass-effect card-glow border-primary/30 p-8 text-center max-w-lg mx-auto bg-gradient-to-br from-background/95 to-card/95 shadow-glow-lg">
+            {/* Enhanced Progress Ring */}
+            <div className="relative w-24 h-24 mx-auto mb-8">
+              <svg className="w-24 h-24 transform -rotate-90">
+                <circle
+                  cx="48"
+                  cy="48"
+                  r="44"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  className="text-muted/30"
+                />
+                <circle
+                  cx="48"
+                  cy="48"
+                  r="44"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray={`${2 * Math.PI * 44}`}
+                  strokeDashoffset={`${2 * Math.PI * 44 * (1 - loadingProgress / 100)}`}
+                  className="text-primary transition-all duration-1000 ease-out shadow-glow-md"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.5))'
+                  }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold text-primary animate-pulse">{Math.round(loadingProgress)}%</span>
               </div>
+            </div>
+
+            {/* Dynamic Title */}
+            <h2 className="text-2xl font-bold text-foreground mb-6">Generating Your Report</h2>
+
+            {/* Enhanced Contextual Message */}
+            <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-xl border border-primary/30 shadow-glow-sm">
+              <p className="text-primary text-lg font-medium animate-pulse">
+                {currentLoadingMessage || "Initializing AI analysis system..."}
+              </p>
+            </div>
+
+            {/* Progress Steps - Animated One at a Time */}
+            <div className="text-sm min-h-[80px] flex items-center justify-center">
+              {loadingProgress >= 0 && loadingProgress < 15 && (
+                <div className="flex items-center text-primary animate-in fade-in-0 slide-in-from-left-4 duration-1000">
+                  <div className="w-4 h-4 rounded-full mr-4 bg-gradient-to-r from-primary to-primary/80 shadow-glow-md animate-pulse"></div>
+                  <div className="flex-1 text-left">
+                    <span className="font-semibold text-base">Initializing Analysis</span>
+                    <p className="text-sm text-primary/90 mt-1">Starting AI analysis system</p>
+                  </div>
+                </div>
+              )}
+              {loadingProgress >= 15 && loadingProgress < 50 && (
+                <div className="flex items-center text-primary animate-in fade-in-0 slide-in-from-left-4 duration-1000">
+                  <div className="w-4 h-4 rounded-full mr-4 bg-gradient-to-r from-primary to-primary/80 shadow-glow-md animate-pulse"></div>
+                  <div className="flex-1 text-left">
+                    <span className="font-semibold text-base">Pattern Recognition</span>
+                    <p className="text-sm text-primary/90 mt-1">Identifying your core behavioral patterns</p>
+                  </div>
+                </div>
+              )}
+              {loadingProgress >= 50 && loadingProgress < 75 && (
+                <div className="flex items-center text-primary animate-in fade-in-0 slide-in-from-left-4 duration-1000">
+                  <div className="w-4 h-4 rounded-full mr-4 bg-gradient-to-r from-primary to-primary/80 shadow-glow-md animate-pulse"></div>
+                  <div className="flex-1 text-left">
+                    <span className="font-semibold text-base">Insight Generation</span>
+                    <p className="text-sm text-primary/90 mt-1">Creating personalized insights for you</p>
+                  </div>
+                </div>
+              )}
+              {loadingProgress >= 75 && loadingProgress < 95 && (
+                <div className="flex items-center text-primary animate-in fade-in-0 slide-in-from-left-4 duration-1000">
+                  <div className="w-4 h-4 rounded-full mr-4 bg-gradient-to-r from-primary to-primary/80 shadow-glow-md animate-pulse"></div>
+                  <div className="flex-1 text-left">
+                    <span className="font-semibold text-base">Protocol Development</span>
+                    <p className="text-sm text-primary/90 mt-1">Crafting your custom transformation protocol</p>
+                  </div>
+                </div>
+              )}
+              {loadingProgress >= 95 && (
+                <div className="flex items-center text-primary animate-in fade-in-0 slide-in-from-left-4 duration-1000">
+                  <div className="w-4 h-4 rounded-full mr-4 bg-gradient-to-r from-primary to-primary/80 shadow-glow-md animate-pulse"></div>
+                  <div className="flex-1 text-left">
+                    <span className="font-semibold text-base">Report Finalization</span>
+                    <p className="text-sm text-primary/90 mt-1">Compiling your comprehensive results</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Tip Section */}
+            <div className="mt-6 p-3 bg-blue-50/30 rounded-lg border border-blue-200/30">
+              <p className="text-xs text-blue-700">
+                💡 <strong>Tip:</strong> Your report will be unique and based on your specific responses.
+                Please wait while our AI analyzes your data...
+              </p>
             </div>
           </div>
         )}
@@ -562,7 +698,7 @@ const IdentityCollisionForm: React.FC = () => {
         )}
 
         {step === 'report' && reportData && (
-          <div className="glass-effect card-glow border-primary/30 overflow-hidden float-animation question-card-enter question-card-enter-active">
+          <div className="glass-effect card-glow border-primary/30 overflow-hidden question-card-enter question-card-enter-active">
             <div className="p-3 sm:p-6 lg:p-8 max-h-[85vh] overflow-y-auto bg-gradient-to-br from-background via-card to-background">
               <div className="max-w-5xl mx-auto glass-effect rounded-2xl sm:rounded-3xl lg:rounded-[2rem] shadow-glow-lg border border-primary/20 p-6 sm:p-8 lg:p-16 stagger-item" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 <div className="space-y-8 sm:space-y-10 lg:space-y-12">
@@ -638,17 +774,24 @@ const IdentityCollisionForm: React.FC = () => {
 
                   {/* Call to Action Section */}
                   <div className="relative mt-8 sm:mt-12 lg:mt-16">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-2xl sm:rounded-3xl transform rotate-1 shadow-glow-lg"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-2xl sm:rounded-3xl shadow-glow-lg"></div>
                     <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary p-6 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl text-center shadow-glow-lg border border-primary/50">
-                      <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black text-primary-foreground mb-4 sm:mb-6 leading-tight">Ready to Transform Your Business?</h2>
+                      <div className="mb-4 sm:mb-6 text-center">
+                        <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black text-primary-foreground leading-tight">
+                          Your Million Dollar Goals...
+                        </div>
+                        <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black text-primary-foreground leading-tight mt-1">
+                          Needs a Million Dollar Identity!
+                        </div>
+                      </div>
                       <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-6 sm:mb-8 lg:mb-10 px-2 font-medium">
-                        This insight is powerful, but action is what creates results. Let's work together to implement these strategies.
+                        Close the gap between your potencial and your bank account.
                       </p>
                       <Button
                         className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 lg:py-6 bg-background text-foreground font-black rounded-full shadow-glow-md hover:bg-card hover:scale-105 transition-all duration-300 text-base sm:text-lg lg:text-xl border-2 border-background"
                         onClick={handleStartPlanClick}
                       >
-                        START MY 30 DAYS PLAN
+                        CLAIM MY MILLIONAIRE IDENTITY NOW
                       </Button>
                     </div>
                   </div>

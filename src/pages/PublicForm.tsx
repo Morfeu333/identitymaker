@@ -214,11 +214,16 @@ export default function PublicForm() {
     }
   };
 
-  // Loading progress management
+  // Enhanced loading progress management with contextual messages
+  const [currentLoadingMessage, setCurrentLoadingMessage] = useState('');
+  const [loadingMessageProgress, setLoadingMessageProgress] = useState(0);
+
   const startLoadingProgress = () => {
     const startTime = Date.now();
     setLoadingStartTime(startTime);
     setLoadingProgress(0);
+    setCurrentLoadingMessage('');
+    setLoadingMessageProgress(0);
 
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
@@ -226,6 +231,26 @@ export default function PublicForm() {
       const progress = Math.min((elapsed / totalDuration) * 100, 100);
 
       setLoadingProgress(progress);
+
+      // Update contextual messages based on time elapsed
+      const elapsedSeconds = elapsed / 1000;
+
+      if (elapsedSeconds >= 5 && elapsedSeconds < 15) {
+        setCurrentLoadingMessage("Analyzing your responses... We've identified your primary pattern");
+        setLoadingMessageProgress(Math.min(((elapsedSeconds - 5) / 10) * 100, 100));
+      } else if (elapsedSeconds >= 15 && elapsedSeconds < 30) {
+        setCurrentLoadingMessage("Generating your personalized insights... 47% complete");
+        setLoadingMessageProgress(Math.min(((elapsedSeconds - 15) / 15) * 100, 100));
+      } else if (elapsedSeconds >= 30 && elapsedSeconds < 60) {
+        setCurrentLoadingMessage("Crafting your custom protocol... Almost ready");
+        setLoadingMessageProgress(Math.min(((elapsedSeconds - 30) / 30) * 100, 100));
+      } else if (elapsedSeconds >= 60) {
+        setCurrentLoadingMessage("Finalizing your comprehensive report... Delivering results");
+        setLoadingMessageProgress(100);
+      } else {
+        setCurrentLoadingMessage("Initializing AI analysis system...");
+        setLoadingMessageProgress(Math.min((elapsedSeconds / 5) * 100, 100));
+      }
 
       if (progress < 100) {
         setTimeout(updateProgress, 100); // Update every 100ms
@@ -757,11 +782,28 @@ export default function PublicForm() {
                 <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
               </div>
               <h2 className="text-xl font-bold text-foreground mb-2">
-                Generating your personalized report
+                Generating Your Report
               </h2>
               <p className="text-muted-foreground text-sm mb-4">
-                We are processing your responses and creating a unique report for you...
+                Our AI is analyzing your responses and creating a personalized assessment...
               </p>
+            </div>
+
+            {/* Enhanced Contextual Loading Message */}
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-blue-900">Current Status</h3>
+                <span className="text-xs text-blue-600 font-medium">{Math.round(loadingMessageProgress)}%</span>
+              </div>
+              <p className="text-blue-800 text-sm mb-3 font-medium">
+                {currentLoadingMessage || "Preparing analysis..."}
+              </p>
+              <div className="w-full bg-blue-200 rounded-full h-2">
+                <div
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${loadingMessageProgress}%` }}
+                ></div>
+              </div>
             </div>
 
             {/* Progress Bar */}
@@ -778,23 +820,35 @@ export default function PublicForm() {
               </div>
             </div>
 
-            {/* Loading Steps */}
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <div className={`flex items-center ${loadingProgress > 20 ? 'text-primary' : ''}`}>
-                <div className={`w-2 h-2 rounded-full mr-3 ${loadingProgress > 20 ? 'bg-primary' : 'bg-gray-300'}`}></div>
-                Analyzing your responses
+            {/* Enhanced Loading Steps with Time-Based Context */}
+            <div className="space-y-3 text-sm">
+              <div className={`flex items-center transition-all duration-500 ${loadingProgress > 15 ? 'text-primary' : 'text-muted-foreground'}`}>
+                <div className={`w-3 h-3 rounded-full mr-3 transition-all duration-500 ${loadingProgress > 15 ? 'bg-primary shadow-lg' : 'bg-gray-300'}`}></div>
+                <div className="flex-1">
+                  <span className="font-medium">Pattern Recognition</span>
+                  <p className="text-xs text-muted-foreground mt-1">Identifying your core behavioral patterns and responses</p>
+                </div>
               </div>
-              <div className={`flex items-center ${loadingProgress > 50 ? 'text-primary' : ''}`}>
-                <div className={`w-2 h-2 rounded-full mr-3 ${loadingProgress > 50 ? 'bg-primary' : 'bg-gray-300'}`}></div>
-                Identifying behavioral patterns
+              <div className={`flex items-center transition-all duration-500 ${loadingProgress > 40 ? 'text-primary' : 'text-muted-foreground'}`}>
+                <div className={`w-3 h-3 rounded-full mr-3 transition-all duration-500 ${loadingProgress > 40 ? 'bg-primary shadow-lg' : 'bg-gray-300'}`}></div>
+                <div className="flex-1">
+                  <span className="font-medium">Insight Generation</span>
+                  <p className="text-xs text-muted-foreground mt-1">Creating personalized insights based on your unique profile</p>
+                </div>
               </div>
-              <div className={`flex items-center ${loadingProgress > 80 ? 'text-primary' : ''}`}>
-                <div className={`w-2 h-2 rounded-full mr-3 ${loadingProgress > 80 ? 'bg-primary' : 'bg-gray-300'}`}></div>
-                Generating personalized recommendations
+              <div className={`flex items-center transition-all duration-500 ${loadingProgress > 70 ? 'text-primary' : 'text-muted-foreground'}`}>
+                <div className={`w-3 h-3 rounded-full mr-3 transition-all duration-500 ${loadingProgress > 70 ? 'bg-primary shadow-lg' : 'bg-gray-300'}`}></div>
+                <div className="flex-1">
+                  <span className="font-medium">Protocol Development</span>
+                  <p className="text-xs text-muted-foreground mt-1">Crafting your custom transformation protocol</p>
+                </div>
               </div>
-              <div className={`flex items-center ${loadingProgress >= 100 ? 'text-primary' : ''}`}>
-                <div className={`w-2 h-2 rounded-full mr-3 ${loadingProgress >= 100 ? 'bg-primary' : 'bg-gray-300'}`}></div>
-                Finalizing your report
+              <div className={`flex items-center transition-all duration-500 ${loadingProgress >= 95 ? 'text-primary' : 'text-muted-foreground'}`}>
+                <div className={`w-3 h-3 rounded-full mr-3 transition-all duration-500 ${loadingProgress >= 95 ? 'bg-primary shadow-lg' : 'bg-gray-300'}`}></div>
+                <div className="flex-1">
+                  <span className="font-medium">Report Finalization</span>
+                  <p className="text-xs text-muted-foreground mt-1">Compiling your comprehensive assessment results</p>
+                </div>
               </div>
             </div>
 
